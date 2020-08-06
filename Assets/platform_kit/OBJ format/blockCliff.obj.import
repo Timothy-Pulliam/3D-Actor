@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/blockCliff.obj-726f410e22fd23d2c937e5381175b2ca.mesh"
+
+[deps]
+
+files=[ "res://.import/blockCliff.obj-726f410e22fd23d2c937e5381175b2ca.mesh" ]
+
+source_file="res://Assets/platform_kit/OBJ format/blockCliff.obj"
+dest_files=[ "res://.import/blockCliff.obj-726f410e22fd23d2c937e5381175b2ca.mesh", "res://.import/blockCliff.obj-726f410e22fd23d2c937e5381175b2ca.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

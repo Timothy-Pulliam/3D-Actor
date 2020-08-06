@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/blockEnd.obj-31274950d72c9b1609fc3d60d1d5b85c.mesh"
+
+[deps]
+
+files=[ "res://.import/blockEnd.obj-31274950d72c9b1609fc3d60d1d5b85c.mesh" ]
+
+source_file="res://Assets/platform_kit/OBJ format/blockEnd.obj"
+dest_files=[ "res://.import/blockEnd.obj-31274950d72c9b1609fc3d60d1d5b85c.mesh", "res://.import/blockEnd.obj-31274950d72c9b1609fc3d60d1d5b85c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

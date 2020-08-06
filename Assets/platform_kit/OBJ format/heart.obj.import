@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/heart.obj-79d30cdcfb584efbe669c46c6ddbf179.mesh"
+
+[deps]
+
+files=[ "res://.import/heart.obj-79d30cdcfb584efbe669c46c6ddbf179.mesh" ]
+
+source_file="res://Assets/platform_kit/OBJ format/heart.obj"
+dest_files=[ "res://.import/heart.obj-79d30cdcfb584efbe669c46c6ddbf179.mesh", "res://.import/heart.obj-79d30cdcfb584efbe669c46c6ddbf179.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
