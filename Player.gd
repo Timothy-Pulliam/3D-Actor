@@ -10,7 +10,6 @@ var jump = false
 
 func get_input():
 	var vy = velocity.y
-	velocity = Vector3()
 	if Input.is_action_pressed("move_forward"):
 		velocity += -transform.basis.z * speed
 	if Input.is_action_pressed("move_back"):
@@ -25,8 +24,8 @@ func get_input():
 		jump = true
 
 func _physics_process(delta):
-	velocity += gravity * delta
 	get_input()
+	velocity += gravity * delta
 	velocity = move_and_slide(velocity, Vector3.UP)
 	if jump and is_on_floor():
 		velocity.y = jump_speed
