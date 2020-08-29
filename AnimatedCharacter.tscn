@@ -1,6 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://3DPlayer.gd" type="Script" id=1]
+[ext_resource path="res://Stand.gd" type="Script" id=2]
+[ext_resource path="res://Jump.gd" type="Script" id=3]
+[ext_resource path="res://Walk.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "jump"
@@ -911,6 +914,15 @@ height = 0.002
 [node name="AnimatedCharacter" type="KinematicBody"]
 transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 script = ExtResource( 1 )
+
+[node name="Stand" type="KinematicBody" parent="."]
+script = ExtResource( 2 )
+
+[node name="Walk" type="KinematicBody" parent="."]
+script = ExtResource( 4 )
+
+[node name="Jump" type="KinematicBody" parent="."]
+script = ExtResource( 3 )
 
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.94229, 0 )
