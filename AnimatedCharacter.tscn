@@ -924,6 +924,8 @@ script = ExtResource( 4 )
 [node name="Jump" type="KinematicBody" parent="."]
 script = ExtResource( 3 )
 
+[node name="Fall" type="KinematicBody" parent="."]
+
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.94229, 0 )
 light_energy = 10.0

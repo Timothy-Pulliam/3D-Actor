@@ -14,6 +14,7 @@ func process(delta):
 	return delta
 
 func physics_process(delta):
+	print("stand _physics_process")
 	return delta
 
 func input(event):
@@ -21,17 +22,12 @@ func input(event):
 		exit("Jump")
 	if Input.is_action_pressed("move_forward"):
 		exit("Walk")
-		fsm.direction += transform.basis.z
 	if Input.is_action_pressed("move_back"):
 		exit("Walk")
-		fsm.direction += -transform.basis.z
 	if Input.is_action_pressed("strafe_right"):
 		exit("Walk")
-		fsm.direction += -transform.basis.x
 	if Input.is_action_pressed("strafe_left"):
 		exit("Walk")
-		fsm.direction += transform.basis.x
-	fsm.direction.normalized()
 	return event
 
 

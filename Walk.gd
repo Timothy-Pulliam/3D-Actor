@@ -16,14 +16,14 @@ func get_input():
 	fsm.direction = Vector3()
 	if Input.is_action_pressed("move_forward"):
 		fsm.animations.play("walk_blocking")
-		fsm.direction += transform.basis.z
+		fsm.direction += fsm.transform.basis.z
 	if Input.is_action_pressed("move_back"):
 		fsm.animations.play("walk_blocking")
-		fsm.direction += -transform.basis.z
+		fsm.direction += -fsm.transform.basis.z
 	if Input.is_action_pressed("strafe_right"):
-		fsm.direction += -transform.basis.x
+		fsm.direction += -fsm.transform.basis.x
 	if Input.is_action_pressed("strafe_left"):
-		fsm.direction += transform.basis.x
+		fsm.direction += fsm.transform.basis.x
 	fsm.direction = fsm.direction.normalized()
 
 # Optional handler functions for game loop events
@@ -32,13 +32,16 @@ func process(delta):
 	return delta
 
 func physics_process(delta):
+	print("walk state _physics_process")
 	get_input()
-	#fsm.animations.play("walk_blocking")
+	var velocity_y = fsm.velocity.y
 	if fsm.direction == Vector3():
 		fsm.velocity.x = lerp(fsm.velocity.x, 0, friction)
 		fsm.velocity.z = lerp(fsm.velocity.z, 0, friction)
 	else:
 		fsm.velocity = lerp(fsm.velocity, fsm.direction * max_speed, acceleration)
+		# maintain continuous downward velocity
+		fsm.velocity.y = velocity_y
 	if fsm.velocity.length() <= 0.01:
 		exit("Stand")
 	return delta
