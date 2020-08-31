@@ -50,7 +50,7 @@ material/3 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 17 )
 
 [node name="BlockLarge" parent="." instance=ExtResource( 2 )]
-transform = Transform( 3.48118, 0, 0, 0, 1, 0, 0, 0, 10.3289, -3.64461, -1, 18.3197 )
+transform = Transform( 12.6715, 0, 0, 0, 0.7, 0, 0, 0, 15.1835, -16.6446, -1, 24.3197 )
 
 [node name="AnimatedCharacter" parent="." instance=ExtResource( 1 )]
 transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 2.5, 0 )

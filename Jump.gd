@@ -2,10 +2,15 @@ extends Spatial
 
 var fsm: StateMachine
 
-var jump_speed = 6  # jump strength
+export var jump_strength = 6
+
+func jump():
+	pass
+	
+	
 
 func enter():
-	fsm.velocity.y = jump_speed
+	fsm.velocity.y += jump_strength
 	fsm.animations.play("jump")
 	yield(fsm.animations, "animation_finished")
 	fsm.back()
@@ -19,6 +24,7 @@ func process(delta):
 	return delta
 
 func physics_process(delta):
+	
 	return delta
 
 func input(event):

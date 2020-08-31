@@ -2,8 +2,10 @@ extends Spatial
 
 var fsm: StateMachine
 
+const WALK_TO_STAND_TRANSINTION = 0.1
+
 export var acceleration = 0.5
-export var friction = 0.1
+export var friction = 0.5
 export var max_walk_speed = 8  # movement speed
 
 func enter():
@@ -32,9 +34,10 @@ func set_horizontal_direction():
 	fsm.direction = fsm.direction.normalized()
 
 func physics_process(delta):
-	set_horizontal_direction()
 	# preserve vertical velocity because of gravity (A 1)
-	var velocity_y = fsm.velocity.y
+	var _velocity_y = fsm.velocity.y
+	# Get horizontal direction to move from local basis
+	set_horizontal_direction()
 	# Assume an object with a direction vector equal to the zero vector
 	# is not accelerating. The object can only decellerate 
 	if fsm.direction == Vector3():
@@ -42,10 +45,11 @@ func physics_process(delta):
 		fsm.velocity.x = lerp(fsm.velocity.x, 0, friction)
 		fsm.velocity.z = lerp(fsm.velocity.z, 0, friction)
 	else:
+		# accelerate from walking
 		fsm.velocity = lerp(fsm.velocity, fsm.direction * max_walk_speed, acceleration)
 		# maintain continuous downward velocity (A 2)
-		fsm.velocity.y = velocity_y
-	if fsm.velocity.length() <= 0.01:
+		fsm.velocity.y = _velocity_y
+	if fsm.velocity.length() <= WALK_TO_STAND_TRANSINTION:
 		exit("Stand")
 	return delta
 
