@@ -909,7 +909,7 @@ surfaces/0 = {
 [sub_resource type="CapsuleShape" id=6]
 margin = 3.286
 radius = 1.53479
-height = 5.99484
+height = 4.77406
 
 [node name="Actor" type="KinematicBody"]
 transform = Transform( -0.1, 0, -3.25841e-08, 0, 0.1, 0, 3.25841e-08, 0, -0.1, 0, 0, 0 )
@@ -943,6 +943,7 @@ near = 0.1
 
 [node name="Armature" type="Skeleton" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.94229, 0 )
+visible = false
 bones/0/name = "stomache"
 bones/0/parent = -1
 bones/0/rest = Transform( 1, -1.50996e-07, 0, 0, 0, -1, 1.50996e-07, 1, 0, 0, 0.748495, -0.0624342 )

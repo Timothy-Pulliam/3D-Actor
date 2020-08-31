@@ -3,10 +3,9 @@ extends Spatial
 var fsm: StateMachine
 
 const WALK_TO_STAND_TRANSINTION = 0.1
-
-export var acceleration = 0.5
-export var friction = 0.5
-export var max_walk_speed = 8  # movement speed
+const acceleration = 0.01
+const friction = 0.7
+const max_walk_speed = 8  # movement speed
 
 func enter():
 	fsm.animations.play("walk_blocking")
