@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Actor"
-run/main_scene="res://Actor.tscn"
+run/main_scene="res://test_level.tscn"
 config/icon="res://icon.png"
 
 [input]
