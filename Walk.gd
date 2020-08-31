@@ -3,7 +3,7 @@ extends Spatial
 var fsm: StateMachine
 
 const WALK_TO_STAND_TRANSINTION = 0.1
-const acceleration = 0.01
+const acceleration = 0.1
 const friction = 0.7
 const max_walk_speed = 8  # movement speed
 

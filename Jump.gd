@@ -2,13 +2,13 @@ extends Spatial
 
 var fsm: StateMachine
 
-const jump_strength = 6
+const JUMP_STRENGTH = 6
 
 func jump():
 	pass
 	
 func enter():
-	fsm.velocity.y += jump_strength
+	fsm.velocity.y += JUMP_STRENGTH
 	fsm.animations.play("jump")
 	yield(fsm.animations, "animation_finished")
 	fsm.back()
