@@ -20,8 +20,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="3D Character"
-run/main_scene="res://3rdPersonPlayer.tscn"
+config/name="Actor"
+run/main_scene="res://Actor.tscn"
 config/icon="res://icon.png"
 
 [input]

@@ -1,4 +1,4 @@
-extends KinematicBody
+extends Spatial
 
 var fsm: StateMachine
 

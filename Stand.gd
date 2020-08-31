@@ -1,4 +1,4 @@
-extends KinematicBody
+extends Spatial
 
 var fsm: StateMachine
 
@@ -14,7 +14,6 @@ func process(delta):
 	return delta
 
 func physics_process(delta):
-	print("stand _physics_process")
 	return delta
 
 func input(event):

@@ -1,10 +1,10 @@
-extends KinematicBody
+extends Spatial
 
 var fsm: StateMachine
 
 export var acceleration = 0.5
 export var friction = 0.1
-export var max_speed = 8  # movement speed
+export var max_walk_speed = 8  # movement speed
 
 func enter():
 	fsm.animations.play("walk_blocking")
@@ -12,7 +12,12 @@ func enter():
 func exit(next_state):
 	fsm.change_to(next_state)
 
-func get_input():
+# Optional handler functions for game loop events
+func process(delta):
+	# Add handler code here
+	return delta
+
+func set_horizontal_direction():
 	fsm.direction = Vector3()
 	if Input.is_action_pressed("move_forward"):
 		fsm.animations.play("walk_blocking")
@@ -26,21 +31,19 @@ func get_input():
 		fsm.direction += fsm.transform.basis.x
 	fsm.direction = fsm.direction.normalized()
 
-# Optional handler functions for game loop events
-func process(delta):
-	# Add handler code here
-	return delta
-
 func physics_process(delta):
-	print("walk state _physics_process")
-	get_input()
+	set_horizontal_direction()
+	# preserve vertical velocity because of gravity (A 1)
 	var velocity_y = fsm.velocity.y
+	# Assume an object with a direction vector equal to the zero vector
+	# is not accelerating. The object can only decellerate 
 	if fsm.direction == Vector3():
+		# Apply friction
 		fsm.velocity.x = lerp(fsm.velocity.x, 0, friction)
 		fsm.velocity.z = lerp(fsm.velocity.z, 0, friction)
 	else:
-		fsm.velocity = lerp(fsm.velocity, fsm.direction * max_speed, acceleration)
-		# maintain continuous downward velocity
+		fsm.velocity = lerp(fsm.velocity, fsm.direction * max_walk_speed, acceleration)
+		# maintain continuous downward velocity (A 2)
 		fsm.velocity.y = velocity_y
 	if fsm.velocity.length() <= 0.01:
 		exit("Stand")

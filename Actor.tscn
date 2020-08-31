@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://3DPlayer.gd" type="Script" id=1]
+[ext_resource path="res://Actor.gd" type="Script" id=1]
 [ext_resource path="res://Stand.gd" type="Script" id=2]
 [ext_resource path="res://Jump.gd" type="Script" id=3]
 [ext_resource path="res://Walk.gd" type="Script" id=4]
@@ -908,33 +908,35 @@ surfaces/0 = {
 
 [sub_resource type="CapsuleShape" id=6]
 margin = 3.286
-radius = 1.10901
-height = 0.002
+radius = 1.53479
+height = 5.99484
 
-[node name="AnimatedCharacter" type="KinematicBody"]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+[node name="Actor" type="KinematicBody"]
+transform = Transform( -0.1, 0, -3.25841e-08, 0, 0.1, 0, 3.25841e-08, 0, -0.1, 0, 0, 0 )
 script = ExtResource( 1 )
 
-[node name="Stand" type="KinematicBody" parent="."]
+[node name="Stand" type="Spatial" parent="."]
 script = ExtResource( 2 )
 
-[node name="Walk" type="KinematicBody" parent="."]
+[node name="Walk" type="Spatial" parent="."]
 script = ExtResource( 4 )
 
-[node name="Jump" type="KinematicBody" parent="."]
+[node name="Jump" type="Spatial" parent="."]
 script = ExtResource( 3 )
 
-[node name="Fall" type="KinematicBody" parent="."]
+[node name="Fall" type="Spatial" parent="."]
 
 [node name="Light" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.94229, 0 )
+transform = Transform( 10, -1.13687e-12, -5.42101e-20, 0, -4.37114e-07, 10, -1.13687e-12, -10, -4.37114e-07, -4.35641, 10.6814, -1.39491 )
 light_energy = 10.0
 light_specular = 1.0
 shadow_enabled = true
-omni_range = 40.0
+omni_range = 1.0
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.982127, 0.0838089, -0.168531, 0.0384323, 0.965825, 0.256329, 0.184254, 0.24527, -0.951784, -0.947859, 8.3981, -15.8051 )
+[node name="CameraCenter" type="Spatial" parent="."]
+
+[node name="Camera" type="Camera" parent="CameraCenter"]
+transform = Transform( -10, 5.65818e-07, -3.20891e-06, 0, 9.84808, 1.73648, 3.25841e-06, 1.73648, -9.84808, 0, 8.4, -16 )
 fov = 39.5978
 size = 7.31429
 near = 0.1
@@ -1226,5 +1228,5 @@ mesh = SubResource( 5 )
 material/0 = null
 
 [node name="Body" type="CollisionShape" parent="."]
-transform = Transform( 1.62662, 0, 0, 0, -8.6039e-08, 3.75542, 0, -2.0002, -1.66811e-07, -0.000198126, 4.08015, 0.0052681 )
+transform = Transform( 1, -5.68434e-14, -3.38813e-21, 0, -4.37114e-08, 1, -5.68434e-14, -1, -4.37114e-08, -0.000198126, 3.7834, 0.0052681 )
 shape = SubResource( 6 )

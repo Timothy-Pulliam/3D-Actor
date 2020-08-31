@@ -37,7 +37,6 @@ func _process(delta):
 		state.process(delta)
 
 func _physics_process(delta):
-	print("state machine physics process")
 	if state.has_method("physics_process"):
 		state.physics_process(delta)
 
