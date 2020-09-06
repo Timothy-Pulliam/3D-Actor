@@ -17,16 +17,17 @@ func physics_process(delta):
 	return delta
 
 func input(event):
-	if Input.is_action_just_pressed("jump"):
-		exit("Jump")
-	if Input.is_action_pressed("move_forward"):
-		exit("Walk")
-	if Input.is_action_pressed("move_back"):
-		exit("Walk")
-	if Input.is_action_pressed("strafe_right"):
-		exit("Walk")
-	if Input.is_action_pressed("strafe_left"):
-		exit("Walk")
+	if fsm.is_on_floor():
+		if Input.is_action_just_pressed("jump"):
+			exit("Jump")
+		if Input.is_action_pressed("move_forward"):
+			exit("Walk")
+		if Input.is_action_pressed("move_back"):
+			exit("Walk")
+		if Input.is_action_pressed("strafe_right"):
+			exit("Walk")
+		if Input.is_action_pressed("strafe_left"):
+			exit("Walk")
 	return event
 
 
