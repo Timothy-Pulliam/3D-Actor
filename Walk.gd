@@ -61,7 +61,7 @@ func input(event):
 	return event
 
 func unhandled_input(event):
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and fsm.is_on_floor():
 		exit("Jump")
 
 func unhandled_key_input(event):
