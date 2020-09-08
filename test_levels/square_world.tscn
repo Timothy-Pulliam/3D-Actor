@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Actor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://test_levels/gravity.gd" type="Script" id=2]
+
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[node name="square_world" type="Spatial"]
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 9.8, 0, 0, 0, 3.6, 0, 0, 0, 8, 0, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody/CollisionShape"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Actor" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+
+[node name="Armature" parent="Actor" index="6"]
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 3.94229, 0 )
+
+[node name="Body" parent="Actor" index="7"]
+transform = Transform( 0.1, -5.68434e-15, -2.4847e-22, 0, -4.37114e-09, 0.1, -5.68434e-15, -0.1, -4.37114e-09, -0.000198126, 3.7834, 0.0052681 )
+
+[editable path="Actor"]
