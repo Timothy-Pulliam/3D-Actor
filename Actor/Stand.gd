@@ -14,6 +14,10 @@ func process(delta):
 	return delta
 
 func physics_process(delta):
+	# this is super inefficient. There has to be a better way to keep
+	# move and slide from slowly increasing horizontal velocity
+	if fsm.is_on_floor():
+		fsm.velocity = Vector3()
 	return delta
 
 func input(event):

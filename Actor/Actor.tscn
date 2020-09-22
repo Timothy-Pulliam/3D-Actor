@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Actor/Actor.gd" type="Script" id=1]
 [ext_resource path="res://Actor/Stand.gd" type="Script" id=2]
 [ext_resource path="res://Actor/Jump.gd" type="Script" id=3]
 [ext_resource path="res://Actor/Walk.gd" type="Script" id=4]
 [ext_resource path="res://Actor/PhysicsMonitor.gd" type="Script" id=5]
+[ext_resource path="res://Actor/Camera.gd" type="Script" id=6]
+[ext_resource path="res://Actor/Fall.gd" type="Script" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "jump"
@@ -912,8 +914,11 @@ margin = 3.286
 radius = 1.53479
 height = 4.77406
 
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 1.264, 0.336868, 1.29145 )
+
 [node name="Actor" type="KinematicBody"]
-transform = Transform( -0.1, 0, -3.89414e-08, 0, 0.1, 0, 3.89414e-08, 0, -0.1, 0, 0, 0 )
+transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
 script = ExtResource( 1 )
 
 [node name="Stand" type="Spatial" parent="."]
@@ -930,6 +935,7 @@ script = ExtResource( 3 )
 
 [node name="Fall" type="Spatial" parent="."]
 transform = Transform( 1, 0, 2.84217e-14, 0, 1, 0, -2.84217e-14, 0, 1, 0, 0, 0 )
+script = ExtResource( 7 )
 
 [node name="Light" type="OmniLight" parent="."]
 transform = Transform( 10, -1.13687e-12, -5.42101e-20, 0, -4.37114e-07, 10, -1.13687e-12, -10, -4.37114e-07, -4.35641, 10.6814, -1.39491 )
@@ -939,16 +945,17 @@ shadow_enabled = true
 omni_range = 1.0
 
 [node name="CameraCenter" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.61806, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0 )
 
 [node name="Camera" type="Camera" parent="CameraCenter"]
-transform = Transform( 9.99911, 0.0758208, -0.109453, -0.0573621, 9.87136, 1.59781, 0.120159, -1.59704, 9.87092, -1.29141e-05, 8.4, 23.627 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 24 )
 fov = 44.3104
 size = 7.31429
 near = 0.1
+script = ExtResource( 6 )
 
 [node name="Armature" type="Skeleton" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.94229, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
 bones/0/name = "stomache"
 bones/0/parent = -1
 bones/0/rest = Transform( 1, -1.50996e-07, 0, 0, 0, -1, 1.50996e-07, 1, 0, 0, 0.748495, -0.0624342 )
@@ -1230,18 +1237,17 @@ anims/jump = SubResource( 1 )
 anims/walk_blocking = SubResource( 2 )
 
 [node name="basemesh" type="MeshInstance" parent="Armature"]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
 mesh = SubResource( 5 )
 material/0 = null
 
 [node name="Body" type="CollisionShape" parent="."]
-transform = Transform( 1, -5.68434e-14, -3.38813e-21, 0, -4.37114e-08, 1, -5.68434e-14, -1, -4.37114e-08, -0.000198126, 3.7834, 0.0052681 )
+transform = Transform( 1, -5.68434e-14, -2.4847e-21, 0, -4.37114e-08, 1, -5.68434e-14, -1, -4.37114e-08, 0, 3.783, 0 )
 shape = SubResource( 6 )
 
 [node name="PhysicsMonitor" type="Panel" parent="."]
 self_modulate = Color( 1, 1, 1, 0.431373 )
-margin_right = 531.0
-margin_bottom = 306.0
+margin_right = 974.0
+margin_bottom = 411.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1257,6 +1263,13 @@ __meta__ = {
 }
 
 [node name="Console" type="LineEdit" parent="PhysicsMonitor/VBoxContainer"]
-margin_right = 58.0
+margin_right = 267.0
 margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="Feet" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.837994, 0, 0, 0, 1, 0, 0.351501, 0 )
+shape = SubResource( 7 )
+[connection signal="mouse_entered" from="PhysicsMonitor" to="PhysicsMonitor" method="_on_PhysicsMonitor_mouse_entered"]
+[connection signal="mouse_exited" from="PhysicsMonitor" to="PhysicsMonitor" method="_on_PhysicsMonitor_mouse_exited"]
 [connection signal="text_entered" from="PhysicsMonitor/VBoxContainer/Console" to="PhysicsMonitor" method="_on_Console_text_entered"]

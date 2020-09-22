@@ -4,7 +4,7 @@ var fsm: StateMachine
 
 
 
-const WALK_TO_STAND_TRANSITION = 0.1
+const ABOUT_ZERO = 0.001
 # Walking stuff
 export var walk_acceleration = 0.1
 export var friction = 0.7
@@ -22,29 +22,20 @@ func process(delta):
 	return delta
 
 # make this function better
-func set_horizontal_direction():
+func get_input():
 	# direction = <x,0,z>
-#	fsm.direction = Vector3()
-#	if Input.is_action_pressed("move_forward"):
-#		fsm.direction += -fsm.transform.basis.z
-#	if Input.is_action_pressed("move_back"):
-#		fsm.direction += fsm.transform.basis.z
-#	if Input.is_action_pressed("strafe_right"):
-#		fsm.direction += fsm.transform.basis.x
-#	if Input.is_action_pressed("strafe_left"):
-#		fsm.direction += -fsm.transform.basis.x
-#	fsm.direction = fsm.direction.normalized()
-	var camera = get_parent().get_node("CameraCenter/Camera")
 	fsm.direction = Vector3()
+	# Walk towards or away from camera
 	if Input.is_action_pressed("move_forward"):
-		fsm.direction += -camera.transform.basis.z
+		fsm.direction += -fsm.camera.global_transform.basis.z
 	if Input.is_action_pressed("move_back"):
-		fsm.direction += camera.transform.basis.z
+		fsm.direction += fsm.camera.global_transform.basis.z
 	if Input.is_action_pressed("strafe_right"):
-		fsm.direction += camera.transform.basis.x
+		fsm.direction += fsm.camera.global_transform.basis.x
 	if Input.is_action_pressed("strafe_left"):
-		fsm.direction += -camera.transform.basis.x
+		fsm.direction += -fsm.camera.global_transform.basis.x
 	fsm.direction = fsm.direction.normalized()
+	print(fsm.direction)
 	
 	
 func physics_process(delta):
@@ -52,37 +43,36 @@ func physics_process(delta):
 	# "airwalk"
 	var _velocity_y = fsm.velocity.y
 	# Get horizontal direction to move from local basis
-	set_horizontal_direction()
+	get_input()
 	# need to figure out how to rotate base mesh
 	# fsm.get_node("Armature/basemesh").transform.rotated()
 	# Assume an object with a direction vector equal to the zero vector
 	# is not accelerating. The object can only decellerate 
 	if fsm.direction == Vector3():
-		# Apply friction
+		# Apply friction (no user input)
 		fsm.velocity.x = lerp(fsm.velocity.x, 0, friction)
 		fsm.velocity.z = lerp(fsm.velocity.z, 0, friction)
-		if fsm.velocity.length() <= WALK_TO_STAND_TRANSITION:
+		# transition back into stand state if basically standing still
+		if fsm.velocity.length() <= ABOUT_ZERO:
+			fsm.velocity.z = 0
+			fsm.velocity.x = 0
 			exit("Stand")
 	else:
+		fsm.animations.play("walk_blocking")
+		fsm.velocity.z = lerp(fsm.velocity.z, fsm.direction.z * max_walk_speed, walk_acceleration)
+		fsm.velocity.x = lerp(fsm.velocity.x, fsm.direction.x * max_walk_speed, walk_acceleration)
+		fsm.velocity.y = _velocity_y
+		
 		# Change mesh direction to face direction vector
-		# Before quat
-#		var q = Quat(fsm.get_node("Armature/basemesh").transform.basis)
-#		var theta = acos(fsm.direction.dot(transform.basis.z))
-#		if rad2deg(theta) < 180:
-#			var rotation = Quat(transform.basis.y, theta)
-		var j = Vector3(0,1,0)
 		var k = fsm.direction
+		var j = Vector3.UP
 		var i = j.cross(k)
 		fsm.get_node("Armature/basemesh").transform.basis = Basis(i,j,k).orthonormalized()
 		
+		# Other ways to direct player movement
 		#fsm.get_node("Armature/basemesh").look_at(fsm.direction, Vector3.UP)
-		
-		# accelerate from walking
-		fsm.animations.play("walk_blocking")
-		fsm.velocity = lerp(fsm.velocity, fsm.direction * max_walk_speed, walk_acceleration)
-		# maintain continuous downward velocity (A 2)
-		fsm.velocity.y = _velocity_y
 	return delta
+
 
 func input(event):
 	return event

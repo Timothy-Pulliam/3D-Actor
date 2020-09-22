@@ -1,9 +1,25 @@
 extends Panel
 
 # attributes of the parent or specified children of the parent
-var attributes = ["acceleration", "velocity", "direction", "rotation_speed", 
-	"transform.basis", "transform.origin",
-	"Jump/jump_velocity", "Walk/walk_acceleration", "Walk/friction", "Walk/max_walk_speed",]
+#var attributes = ["MOUSE_SENSITIVITY", "acceleration", "velocity", "direction", "rotation_speed", 
+#	"transform.basis", "transform.origin", "global_transform.basis", "global_transform.origin",
+#	"Jump/jump_velocity", "Walk/walk_acceleration", "Walk/friction", "Walk/max_walk_speed",]
+
+var attributes = ["acceleration", 
+				"velocity", 
+				"direction", 
+				"transform.origin",
+				"CameraCenter/transform.origin", 
+				"CameraCenter/Camera/transform.origin", 	
+				"transform.basis",
+				"CameraCenter/transform.basis",
+				"CameraCenter/Camera/transform.basis",
+				"global_transform.origin",
+				"CameraCenter/global_transform.origin", 
+				"CameraCenter/Camera/global_transform.origin", 
+				"global_transform.basis",
+				"CameraCenter/global_transform.basis", 
+				"CameraCenter/Camera/global_transform.basis"]
 
 # maps the attributes to their respective lables
 var attr2label_dict = {}
@@ -31,19 +47,41 @@ func _ready():
 		
 		
 func _physics_process(delta):
+	# basic regex
+#	var regex = RegEx.new()
+#	regex.compile("some regex")
+#	var result = regex.search("some text")
+#	if result:
+#		print(result.get_string()) 
+#
+#	var node_regex = RegEx.new()
+#	node_regex.compile("(\\w+\\/)")
+#	var attribute_regex = RegEx.new()
+#	attribute_regex.compile()
+	
 	# set label text
 	for attribute in attributes:
-		#attr2label_dict[attribute].text = "yolo"
-		if attribute.count("/") == 0:
-			if attribute.count(".") > 0:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(attribute.split(".")[0])[attribute.split(".")[1]])
-			else:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(attribute))
+		var i = attribute.find_last("/")
+		# if no "/" found
+		var attribute_node
+		var _attribute
+		if i == -1:
+			_attribute = attribute
+			attribute_node = null
 		else:
-			var i = attribute.find_last("/")
-			var attribute_node = attribute.substr(0, i)
-			var _attribute = attribute.substr(i+1)
-			attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get_node(attribute_node).get(_attribute))
+			_attribute = attribute.substr(i+1)
+			attribute_node = attribute.substr(0,i)
+		
+		if attribute_node:
+			if _attribute.count(".") > 0:
+				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get_node(attribute_node).get(_attribute.split(".")[0])[_attribute.split(".")[1]])
+			else:
+				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get_node(attribute_node).get(_attribute))
+		else:
+			if _attribute.count(".") > 0:
+				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(_attribute.split(".")[0])[_attribute.split(".")[1]])
+			else:
+				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(_attribute))
 
 
 func _on_Console_text_entered(input : String):
@@ -73,3 +111,11 @@ func _on_Console_text_entered(input : String):
 			print("not a valid attribute/command")
 	$VBoxContainer/Console.release_focus()
 
+
+
+func _on_PhysicsMonitor_mouse_exited():
+	$VBoxContainer/Console.release_focus()
+
+
+func _on_PhysicsMonitor_mouse_entered():
+	$VBoxContainer/Console.grab_focus()
