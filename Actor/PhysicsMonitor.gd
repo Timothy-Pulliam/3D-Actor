@@ -5,29 +5,34 @@ extends Panel
 #	"transform.basis", "transform.origin", "global_transform.basis", "global_transform.origin",
 #	"Jump/jump_velocity", "Walk/walk_acceleration", "Walk/friction", "Walk/max_walk_speed",]
 
-var attributes = ["acceleration", 
-				"velocity", 
-				"direction", 
-				"transform.origin",
-				"CameraCenter/transform.origin", 
-				"CameraCenter/Camera/transform.origin", 	
-				"transform.basis",
-				"CameraCenter/transform.basis",
-				"CameraCenter/Camera/transform.basis",
-				"global_transform.origin",
-				"CameraCenter/global_transform.origin", 
-				"CameraCenter/Camera/global_transform.origin", 
-				"global_transform.basis",
-				"CameraCenter/global_transform.basis", 
-				"CameraCenter/Camera/global_transform.basis"]
+var attributes = [
+	"acceleration",
+	"velocity",
+	"direction",
+	"transform.origin",
+	"CameraPivot/transform.origin",
+	"CameraPivot/CameraTarget/Camera/transform.origin",
+	"transform.basis",
+	"Armature/basemesh/transform.basis",
+	"CameraPivot/transform.basis",
+	"CameraPivot/CameraTarget/Camera/transform.basis",
+	"global_transform.origin",
+	"CameraPivot/global_transform.origin",
+	"CameraPivot/CameraTarget/Camera/global_transform.origin",
+	"global_transform.basis",
+	"CameraPivot/global_transform.basis",
+	"CameraPivot/CameraTarget/Camera/global_transform.basis"
+]
 
 # maps the attributes to their respective lables
 var attr2label_dict = {}
 
 var rsplit = funcref(self, "_rsplit")
-func _rsplit(text: String, delimiter:="/"):
+
+
+func _rsplit(text: String, delimiter := "/"):
 	return text.split(delimiter)[-1]
-	
+
 
 func map(input: Array, function: FuncRef) -> Array:
 	var result := []
@@ -35,6 +40,7 @@ func map(input: Array, function: FuncRef) -> Array:
 	for i in range(input.size()):
 		result[i] = function.call_func(input[i])
 	return result
+
 
 func _ready():
 	for attribute in attributes:
@@ -44,8 +50,7 @@ func _ready():
 		$VBoxContainer.add_child(attr2label_dict[attribute], true)
 		attr2label_dict[attribute].text = attribute
 
-		
-		
+
 func _physics_process(delta):
 	# basic regex
 #	var regex = RegEx.new()
@@ -58,7 +63,7 @@ func _physics_process(delta):
 #	node_regex.compile("(\\w+\\/)")
 #	var attribute_regex = RegEx.new()
 #	attribute_regex.compile()
-	
+
 	# set label text
 	for attribute in attributes:
 		var i = attribute.find_last("/")
@@ -69,22 +74,42 @@ func _physics_process(delta):
 			_attribute = attribute
 			attribute_node = null
 		else:
-			_attribute = attribute.substr(i+1)
-			attribute_node = attribute.substr(0,i)
-		
+			_attribute = attribute.substr(i + 1)
+			attribute_node = attribute.substr(0, i)
+
 		if attribute_node:
 			if _attribute.count(".") > 0:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get_node(attribute_node).get(_attribute.split(".")[0])[_attribute.split(".")[1]])
+				attr2label_dict[attribute].text = (
+					attribute
+					+ ": "
+					+ str(
+						get_parent().get_node(attribute_node).get(_attribute.split(".")[0])[_attribute.split(
+							"."
+						)[1]]
+					)
+				)
 			else:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get_node(attribute_node).get(_attribute))
+				attr2label_dict[attribute].text = (
+					attribute
+					+ ": "
+					+ str(get_parent().get_node(attribute_node).get(_attribute))
+				)
 		else:
 			if _attribute.count(".") > 0:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(_attribute.split(".")[0])[_attribute.split(".")[1]])
+				attr2label_dict[attribute].text = (
+					attribute
+					+ ": "
+					+ str(get_parent().get(_attribute.split(".")[0])[_attribute.split(".")[1]])
+				)
 			else:
-				attr2label_dict[attribute].text = attribute + ": " + str(get_parent().get(_attribute))
+				attr2label_dict[attribute].text = (
+					attribute
+					+ ": "
+					+ str(get_parent().get(_attribute))
+				)
 
 
-func _on_Console_text_entered(input : String):
+func _on_Console_text_entered(input: String):
 	if input.count("=") > 0:
 		var attribute = input.split("=")[0]
 		var params = input.split("=")[1]
@@ -92,7 +117,7 @@ func _on_Console_text_entered(input : String):
 			var x = float(params.split(",")[0])
 			var y = float(params.split(",")[1])
 			var z = float(params.split(",")[2])
-			params = Vector3(x,y,z)
+			params = Vector3(x, y, z)
 		else:
 			params = float(params)
 		# check for valid attribute
@@ -100,7 +125,7 @@ func _on_Console_text_entered(input : String):
 			if attribute.count("/") > 0:
 				var i = attribute.find_last("/")
 				var attribute_node = attribute.substr(0, i)
-				var _attribute = attribute.substr(i+1)
+				var _attribute = attribute.substr(i + 1)
 				get_parent().get_node(attribute_node).set(_attribute, params)
 			else:
 				if attribute.count(".") > 0:
@@ -110,7 +135,6 @@ func _on_Console_text_entered(input : String):
 		else:
 			print("not a valid attribute/command")
 	$VBoxContainer/Console.release_focus()
-
 
 
 func _on_PhysicsMonitor_mouse_exited():

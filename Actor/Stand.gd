@@ -2,16 +2,20 @@ extends Spatial
 
 var fsm: StateMachine
 
+
 func enter():
 	pass
 
+
 func exit(next_state):
 	fsm.change_to(next_state)
+
 
 # Optional handler functions for game loop events
 func process(delta):
 	# Add handler code here
 	return delta
+
 
 func physics_process(delta):
 	# this is super inefficient. There has to be a better way to keep
@@ -19,6 +23,7 @@ func physics_process(delta):
 	if fsm.is_on_floor():
 		fsm.velocity = Vector3()
 	return delta
+
 
 func input(event):
 	if fsm.is_on_floor():
@@ -38,8 +43,10 @@ func input(event):
 func unhandled_input(event):
 	return event
 
+
 func unhandled_key_input(event):
 	return event
+
 
 func notification(what, flag = false):
 	return [what, flag]
