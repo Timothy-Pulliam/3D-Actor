@@ -941,14 +941,14 @@ light_specular = 1.0
 shadow_enabled = true
 omni_range = 1.0
 
-[node name="CameraCenter" type="Spatial" parent="."]
+[node name="CameraPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0 )
 
-[node name="Camera" type="Camera" parent="CameraCenter"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 24 )
-fov = 44.3104
-size = 7.31429
-near = 0.1
+[node name="CameraTarget" type="Spatial" parent="CameraPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 12 )
+
+[node name="Camera" type="ClippedCamera" parent="CameraPivot/CameraTarget"]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
 
 [node name="Armature" type="Skeleton" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
@@ -1241,6 +1241,7 @@ transform = Transform( 1, -5.68434e-14, -2.4847e-21, 0, -4.37114e-08, 1, -5.6843
 shape = SubResource( 6 )
 
 [node name="PhysicsMonitor" type="Panel" parent="."]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.431373 )
 margin_right = 974.0
 margin_bottom = 411.0
